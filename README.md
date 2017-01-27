@@ -5,6 +5,7 @@ This devops folder organizes and maintains essential scripts to automate the ser
 # install
 
 > ONE-LINE INSTALL
+>
 > If this repository is public, choose this option.
 
 - To install, run [INSTALL.sh](bash <(curl -s https://raw.githubusercontent.com/starlightgroup/devops/INSTALL.sh)) from your terminal.
@@ -18,6 +19,7 @@ bash <(curl -s https://raw.githubusercontent.com/starlightgroup/devops/INSTALL.s
 - If your web host provides an initial script, simply execute the above ONE-LINE SCRIPT.
 
 > ONE-LINE INSTALL
+>
 > If this repository is private, choose this option.
 
 - Must run the following as `root`
@@ -26,6 +28,8 @@ bash <(curl -s https://raw.githubusercontent.com/starlightgroup/devops/INSTALL.s
 # save the private `id_rsa` from the descrypted file.
 # To get this `id_rsa`, go to below, follow instruction, then decrypt:
 # https://github.com/starlightgroup/ssh
+# The following private key is just to illustrate the example.
+# Please do not use below PRIVATE KEY as this won't work.
 id_rsa="-----BEGIN RSA PRIVATE KEY-----
 MIIEowIBAAKCAQEAwGjgvftka18MXDM8WNnzXKn8/uIgC00ZXVHj9tV5dWyLe4QC
 zw32hnuNv+YDn57WCsLUkZcXOohGFk50C7Xm92NkLjQrDdaZh2Il/6aoIsQtQLrc
@@ -65,6 +69,7 @@ starlightgroup-devops/INSTALL.sh
 ```
 
 > DOCKER
+> 
 > This requries this repository to be public, or you have an access to this
 > repository from your login credential. Alternatively, you can build the 
 > docker image on local, then send it to your own Docker host.
