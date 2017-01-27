@@ -42,6 +42,14 @@ init_d_nginx() {
 	chkconfig --level 345 nginx on
 }
 
+# update cron
+update_cron() {
+	# update all daily crons.
+	# All existing crons will be overwritten.
+	cp "cron.daily/*" "/etc/cron.daily/"
+
+}
+
 # install eseential tools for nodejs server
 if [[ ! -f "/var/lock/init/00_init_server" ]]; then
 	echo "INFO: Server is created. Running init.d scripts for first time initialization."
@@ -73,3 +81,4 @@ fi
 enable_yum_cron
 install_yum_plugin_security
 init_d_nginx
+update_cron

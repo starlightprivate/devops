@@ -1,0 +1,31 @@
+#!/bin/bash
+#
+# 0yum-daily.cron
+#
+# Daily cron job that updates security patches with yum.
+# Then store all security patch logs.
+#
+# Copyright 2017-present DMM1 LLC.
+#
+# Authored by
+# Melvyn Kim <melvynkim@gmail.com>
+#
+# Maintained at
+# https://github.com/starlightgroup/devops
+
+# Only run if this flag is set. The flag is created by the yum-cron init
+# script when the service is started -- this allows one to use chkconfig and
+# the standard "service stop|start" commands to enable or disable yum-cron.
+if [[ ! -f /var/lock/subsys/yum-cron ]]; then
+  exit 0
+fi
+
+DATE=$(date +%Y%m%d_%H%M%S)
+
+# install the security patches daily, 
+# then save the log with the run date as its filename
+yum -y install \
+	yum-plugin-security >> "/var/log/yum.log.d/${DATE}.log"
+
+# Action!
+exec /usr/sbin/yum-cron
