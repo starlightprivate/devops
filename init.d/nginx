@@ -1,0 +1,85 @@
+#!/bin/bash
+#
+# 00_init_server.sh
+#
+# This init script should be run only once, upon server creation.
+#
+# Copyright 2017-present DMM1 LLC.
+#
+# Authored by
+# Melvyn Kim <melvynkim@gmail.com>
+#
+# Maintained at
+# https://github.com/starlightgroup/devops
+
+RETVAL=0
+
+start () {
+	# check if nginx is running with lock
+	if  [[ -f /var/lock/nginx ]]; then
+		# Lock exists. nginx is running already.
+		# prematurally exit with error code
+		exit 1
+	fi
+
+	# start nginx
+	systemctl start nginx
+
+	# enable firewall
+	firewall-cmd --permanent --zone=public --add-service=http 
+	firewall-cmd --permanent --zone=public --add-service=https
+	firewall-cmd --reload
+
+	# enable nginx when system boots
+	systemctl enable nginx
+
+	# enable the lock as it's started
+	/var/lock/nginx
+}
+
+stop () {
+	# check if nginx is already running
+	if  [[ ! -f /var/lock/nginx ]]; then
+		# Lock doesn't exist. nginx is not running.
+		# prematurally exit with error code
+		exit 2
+	fi
+
+	# stop nginx
+	systemctl stop nginx
+
+	# remove lock as it's stopped
+	rm -f /var/lock/nginx
+}
+
+status () {
+	# Check with nginx configuration
+	# Print result with the nginx configuration
+	nginx -t 
+}
+
+restart () {
+	stop
+	start
+
+	# Alternatively, instead of manual stop/start manuever as above,, you can do:
+	# systemctl restart nginx
+}
+
+condrestart () {
+	# restart nginx only if it's running
+    if [[ -f /var/lock/nginx ]]; then
+    	restart
+    fi
+}
+
+
+case "$1" in
+    stop) stop ;;
+    status) status ;;
+    start|restart|reload|force-reload) restart ;;
+    condrestart) condrestart ;;
+    *) usage ;;
+esac
+
+exit $RETVAL
