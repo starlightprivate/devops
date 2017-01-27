@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# 00_init_server.sh
+# init.d/nginx
 #
 # This init script should be run only once, upon server creation.
 #

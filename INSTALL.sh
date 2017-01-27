@@ -12,7 +12,7 @@
 #
 # Maintained at
 # https://github.com/starlightgroup/devops
-
+DIR_DEVOPS=$1
 DATE=$(date +%Y%m%d_%H%M%S)
 # return flag
 # If this script has run successfully, set `RETVAL` to zero.
@@ -36,7 +36,7 @@ install_yum_plugin_security() {
 	yum -y install yum-plugin-security >> "/var/log/yum.log.d/${DATE}.log"
 }
 
-# enable `install_nodejs`
+# enable `nginx`
 init_d_nginx() {
 	# run nginx at runlevel 3, 4, 5
 	chkconfig --level 345 nginx on
@@ -46,7 +46,7 @@ init_d_nginx() {
 update_cron() {
 	# update all daily crons.
 	# All existing crons will be overwritten.
-	cp "cron.daily/*" "/etc/cron.daily/"
+	yes y | cp -f "${DIR_DEVOPS}/cron.daily/*.cron" "/etc/cron.daily/"
 
 }
 
