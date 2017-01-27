@@ -36,6 +36,12 @@ install_yum_plugin_security() {
 	yum -y install yum-plugin-security >> "/var/log/yum.log.d/${DATE}.log"
 }
 
+# enable `install_nodejs`
+init_d_nginx() {
+	# run nginx at runlevel 3, 4, 5
+	chkconfig --level 345 nginx on
+}
+
 # install eseential tools for nodejs server
 if [[ ! -f "/var/lock/init/00_init_server" ]]; then
 	echo "INFO: Server is created. Running init.d scripts for first time initialization."
@@ -64,5 +70,6 @@ else
 	exit 0
 fi
 
-install_yum_plugin_security
 enable_yum_cron
+install_yum_plugin_security
+init_d_nginx
